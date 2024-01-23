@@ -1,0 +1,315 @@
+/* Add a media query for screens smaller than 600px */
+@media only screen and (max-width: 600px) {
+
+  /* Change the font size for headings on small screens */
+  h1,
+  h2,
+  h3 {
+    font-size: 1.2em;
+  }
+
+  /* Stack the header items vertically on small screens */
+  header {
+    flex-direction: column;
+  }
+
+  /* Stack the nav items vertically on small screens */
+  nav ul {
+    flex-direction: column;
+  }
+
+  /* Make the profile picture smaller on small screens */
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Change the button styles for small screens */
+  button {
+    font-size: 0.8em;
+    padding: 8px;
+  }
+}
+
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header h1,
+nav a {
+  color: #fff;
+}
+
+nav {
+  display: flex;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+nav a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.about-me-container {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  /* this will make the elements wrap to the next line if they don't fit in the current one */
+}
+
+.about-me-text {
+  width: 75%;
+  /* adjust the width to control the size of the text area */
+  padding-right: 20px;
+  /* add some space between the text and the photo */
+}
+
+.profile-picture {
+  width: 50%;
+  /* adjust the width to control the size of the photo */
+  height: auto;
+  /* make sure the height adjusts automatically to the width */
+}
+
+
+.align-right {
+  text-align: right;
+  margin-right: 130px;
+}
+
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-right: 20px;
+  float: left;
+  box-shadow: 10px 10px 5px grey;
+}
+
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+section h2 {
+  margin-top: 0;
+  color: #4CAF50;
+}
+
+section h3 {
+  margin-top: 0;
+
+}
+
+#language-switcher {
+  display: flex;
+  align-items: center;
+}
+
+#language-switcher img {
+  width: 25px; /* Adjust the size of the flags as needed */
+  height: auto;
+  margin-right: 10px; /* Add some spacing between flags */
+}
+
+#about {
+  padding: 20px;
+}
+
+a {
+  color: white;
+  /* Change the text color to white */
+  text-decoration: none;
+  /* Remove the underline */
+}
+
+.links {
+  color: #333;
+  /* or any other color that matches the rest of the text */
+  text-decoration: underline;
+}
+
+button {
+  background-color: #4CAF50;
+  /* Change the background color */
+  border: none;
+  /* Remove the border */
+  border-radius: 10px;
+  /* Add some border radius to make it round */
+  color: white;
+  /* Change the text color to white */
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
+
+#current-position {
+  padding: 20px;
+}
+
+#experience {
+  padding: 20px;
+}
+
+.experience-item {
+  margin-bottom: 40px; /* Adjust the value as needed for spacing */
+}
+
+#experience ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#experience li {
+  margin-bottom: 10px;
+}
+
+#education {
+  padding: 20px;
+}
+
+#education ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#education li {
+  margin-bottom: 30px;
+}
+
+#certificates {
+  padding: 20px;
+}
+
+.certifications {
+  display: table;
+  flex-wrap: wrap;
+}
+
+.certification {
+  flex: 1;
+  margin: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  text-align: center;
+}
+
+
+#skills {
+  padding: 20px;
+}
+
+#skills h3 {
+  margin: 0;
+}
+
+#skills ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#skills li {
+  margin-bottom: 10px;
+}
+
+.skills-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.computer-skills {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 20px;
+  flex-basis: 45%;
+  margin-right: 10px;
+}
+
+.soft-skills {
+  background-color: #fff;
+  color: #333;
+  padding: 20px;
+  flex-basis: 45%;
+}
+
+#activities {
+  padding: 20px;
+}
+
+.activities_ {
+  display: table;
+  flex-wrap: wrap;
+}
+
+.activity {
+  flex: 1;
+  margin: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}

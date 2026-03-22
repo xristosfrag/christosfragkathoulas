@@ -1,218 +1,1123 @@
-<!-- html_content = """<!doctype html> -->
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Christos Fragkathoulas — Portfolio</title>
-  <meta name="description" content="Minimal academic portfolio of Christos Fragkathoulas: work experience, publications, and education." />
+  <meta name="description" content="Academic portfolio of Christos Fragkathoulas, focusing on explainable AI, fairness, counterfactual explanations, and time-series clustering." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #ffffff;
-      --card: #f4f5f7;
-      --text: #111;
-      --muted: #555;
-      --accent: #0066ff;
-      --border: #ddd;
-      --maxw: 980px;
+  :root {
+    --bg: #f5f7fb;
+    --panel: rgba(255,255,255,0.84);
+    --panel-strong: #ffffff;
+    --text: #111827;
+    --muted: #5b6472;
+    --line: rgba(17, 24, 39, 0.09);
+    --accent: #3457ff;
+    --accent-soft: rgba(52, 87, 255, 0.1);
+    --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    --maxw: 1180px;
+    --radius-xl: 28px;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0b1020;
+    --panel: rgba(13, 18, 33, 0.88);
+    --panel-strong: white;
+    --text: hsl(220, 48%, 94%);
+    --muted: #d8dde7;
+    --line: rgba(226, 232, 240, 0.09);
+    --accent: #83a0ff;
+    --accent-soft: rgba(131, 160, 255, 0.14);
+    --shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  }
+
+  :root[data-theme="dark"] .publication-card,
+  :root[data-theme="dark"] .timeline-item,
+  :root[data-theme="dark"] .publication-note,
+  :root[data-theme="dark"] .hero.panel {
+    background: rgba(8, 16, 29, 0.96);
+  }
+  :root[data-theme="dark"] .chip,
+  :root[data-theme="dark"] .pill,
+  :root[data-theme="dark"] .pub-venue {
+    background: rgba(255, 255, 255, 0.03);
+    color: #c7d0dd;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  :root[data-theme="dark"] .pub-tag {
+    background: rgba(126, 162, 255, 0.14);
+    color: #9eb8ff;
+  }
+
+  :root[data-theme="dark"] .pub-visual-expand {
+    background: rgba(12, 19, 31, 0.88);
+    color: #f3f6fb;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  /* :root[data-theme="dark"] .pub-visual-expand:hover {
+    /* background: rgba(24, 35, 56, 0.96); */
+  } */
+  :root[data-theme="dark"] .btn-secondary {
+    background: transparent;
+    color: #f3f6fb;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  :root[data-theme="dark"] .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(52,87,255,0.08), transparent 22%),
+      radial-gradient(circle at top right, rgba(36,198,220,0.05), transparent 18%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  :root[data-theme="dark"] body {
+    background:
+      radial-gradient(circle at top left, rgba(90, 120, 255, 0.08), transparent 20%),
+      radial-gradient(circle at top right, rgba(50, 120, 180, 0.05), transparent 16%),
+      /* linear-gradient(180deg, #06101d 0%, #07111f 100%); */
+  }
+
+  body.modal-open {
+    overflow: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; }
+
+  .wrap {
+    width: min(calc(100% - 32px), var(--maxw));
+    margin: 0 auto;
+  }
+
+  .nav-shell {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 72px;
+  }
+
+  .brand {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 55%, white));
+    color: white;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a,
+  .theme-toggle {
+    border: 1px solid transparent;
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 9px 14px;
+    transition: 180ms ease;
+  }
+
+  .nav-links a:hover,
+  .theme-toggle:hover {
+    background: var(--accent-soft);
+    color: var(--text);
+    border-color: var(--line);
+  }
+
+  .theme-toggle {
+    background: transparent;
+    cursor: pointer;
+  }
+
+  main { padding: 34px 0 56px; }
+  .section { margin-top: 34px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 28px;
+    padding: 28px;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 100%;
+    aspect-ratio: 1 / 1.15;
+    object-fit: cover;
+    border-radius: 24px;
+    border: 1px solid var(--line);
+  }
+
+  .eyebrow,
+  .section-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    margin: 0;
+    line-height: 1.05;
+    font-size: clamp(34px, 6vw, 58px);
+    letter-spacing: -0.05em;
+  }
+
+  .lead {
+    font-size: 17px;
+    max-width: 72ch;
+    color: var(--muted);
+    margin: 14px 0 0;
+  }
+
+  .hero-meta,
+  .hero-actions,
+  .pub-actions,
+  .stack {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta { margin-top: 18px; }
+  .hero-actions { margin-top: 20px; }
+  .stack { flex-direction: column; }
+
+  .chip,
+  .pill,
+  .pub-tag,
+  .pub-venue {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  .chip,
+  .pill,
+  .pub-venue {
+    color: var(--muted);
+    background: color-mix(in srgb, var(--panel-strong) 60%, transparent);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+  }
+
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: transparent;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(28px, 3vw, 38px);
+    letter-spacing: -0.04em;
+  }
+
+  .section-note {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .timeline-item {
+    padding: 22px 22px 20px;
+  }
+
+  .timeline-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .timeline-top h3,
+  .publication-card h3,
+  .publication-note h3 {
+    margin: 0;
+    letter-spacing: -0.03em;
+  }
+
+  .muted,
+  .pub-authors,
+  .pub-abstract,
+  .publication-note p,
+  .timeline-item p {
+    color: var(--muted);
+  }
+
+  .publication-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .publication-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .publication-card.layout-image-first .pub-visual { order: 1; }
+  .publication-card.layout-image-first .pub-body { order: 2; }
+
+  .publication-card.layout-text-first .pub-body { order: 1; }
+  .publication-card.layout-text-first .pub-visual { order: 2; }
+
+  .publication-card.layout-header-image-body .pub-header { order: 1; }
+  .publication-card.layout-header-image-body .pub-visual { order: 2; }
+  .publication-card.layout-header-image-body .pub-content { order: 3; }
+
+  .pub-header,
+  .pub-content {
+    padding: 16px 20px;
+  }
+
+  .pub-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pub-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .publication-card.layout-image-first .pub-body,
+  .publication-card.layout-text-first .pub-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 20px 18px;
+  }
+
+  .pub-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .pub-tag {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .pub-authors,
+  .pub-abstract,
+  .timeline-item p,
+  .publication-note p {
+    margin: 0;
+  }
+
+  .pub-visual {
+    position: relative;
+    height: 220px;
+    background: var(--panel-strong);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  :root[data-theme="dark"] .pub-visual {
+    background: linear-gradient(10deg, rgb(226, 231, 243) 0%, #404041 100%);
+  }
+  .pub-visual img {
+    width: 100%;
+    height: 100%;
+    transition: transform 180ms ease;
+  }
+
+  :root[data-theme="dark"] .pub-visual img {
+    filter: brightness(1.02) contrast(1.04);
+  }
+
+  .publication-card.layout-image-first .pub-visual {
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .publication-card.layout-text-first .pub-visual {
+    border-top: 1px solid var(--line);
+    border-bottom: 0;
+  }
+
+  .pub-visual-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pub-visual img {
+    width: 100%;
+    height: 100%;
+    transition: transform 180ms ease;
+  }
+
+  .pub-visual.image-fit img {
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pub-visual.image-cover img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .pub-visual-expand {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+    background: color-mix(in srgb, var(--panel-strong) 82%, transparent);
+    color: var(--text);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  }
+
+  .pub-visual-expand:hover {
+    background: var(--accent-soft);
+    border-color: var(--line);
+  }
+
+  .pub-visual-fallback {
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(135deg, rgba(52,87,255,0.18), rgba(36,198,220,0.10)),
+      var(--panel-strong);
+  }
+
+  .fallback-art {
+    width: calc(100% - 28px);
+    height: calc(100% - 28px);
+    border: 1px dashed var(--line);
+    border-radius: 22px;
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
+    padding: 18px;
+  }
+
+  .pub-abstract {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    transition: all 180ms ease;
+  }
+
+  .publication-card.abstract-expanded .pub-abstract,
+  .publication-card.abstract-hover:hover .pub-abstract,
+  .publication-card.abstract-hover:focus-within .pub-abstract {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .publication-note {
+    margin-top: 18px;
+    padding: 20px 22px;
+  }
+
+  .footer {
+  padding: 0 0 38px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  }
+
+  .footer p {
+    margin: 0;
+  }
+
+  /* Modal */
+  .image-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    background: rgba(4, 9, 20, 0.82);
+    backdrop-filter: blur(8px);
+  }
+
+  .image-modal.open {
+    display: flex;
+  }
+
+  .image-modal-content {
+    position: relative;
+    width: min(1200px, 100%);
+    max-height: min(90vh, 1000px);
+    border-radius: 24px;
+    border: 1px solid color-mix(in srgb, var(--line) 90%, transparent);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--panel-strong)), color-mix(in srgb, #24c6dc 8%, var(--panel-strong))),
+      var(--panel-strong);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+  }
+
+  .image-modal-toolbar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    display: flex;
+    gap: 10px;
+  }
+
+  .image-modal-close {
+    min-width: 40px;
+    min-height: 40px;
+    border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--panel-strong) 84%, transparent);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    backdrop-filter: blur(10px);
+  }
+
+  .image-modal-close:hover {
+    background: var(--accent-soft);
+  }
+
+  .image-modal-body {
+    width: 100%;
+    max-height: min(90vh, 1000px);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-modal-body img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(90vh - 48px);
+    object-fit: contain;
+    border-radius: 16px;
+  }
+
+  @media (max-width: 980px) {
+    .hero {
+      grid-template-columns: 1fr;
     }
-    [data-theme="dark"] {
-      --bg: #0b0d10;
-      --card: #15181d;
-      --text: #e7ecf3;
-      --muted: #9aa4b2;
-      --accent: #4f8cff;
-      --border: #1a1f25;
+
+    .avatar {
+      max-width: 300px;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
-      color: var(--text); background: var(--bg); line-height: 1.65;
+
+    .publication-grid {
+      grid-template-columns: 1fr;
     }
-    a { color: var(--text); text-decoration: none; }
-    a:hover, a:focus { color: var(--accent); }
-    .wrap { max-width: var(--maxw); padding: 32px 20px 80px; margin: 0 auto; }
+  }
 
-    header { display: flex; align-items: center; gap: 24px; }
-    .avatar { height: 140px; width: auto; border-radius: 16px; object-fit: cover; border: 1px solid var(--border); }
-    .title { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
-    h1 { font-size: clamp(28px, 3.2vw, 40px); margin: 0; }
-    .subtitle { color: var(--muted); font-size: 15px; }
-    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
-    .chip { padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; color: var(--muted); }
-
-    .nav { position: sticky; top: 0; backdrop-filter: blur(8px); background: color-mix(in srgb, var(--bg) 90%, transparent); border-bottom: 1px solid var(--border); z-index: 5; display: flex; justify-content: space-between; align-items: center; }
-    .nav-inner { max-width: var(--maxw); margin: 0 auto; display: flex; gap: 18px; align-items: center; padding: 10px 20px; }
-    .nav a { color: var(--muted); font-size: 14px; padding: 8px 10px; border-radius: 8px; }
-    .nav a:hover { background: var(--card); color: var(--text); }
-    .toggle-btn { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; color: var(--muted); cursor: pointer; }
-
-    section { margin-top: 36px; }
-    .section-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
-    .section-h { margin: 0 0 12px; font-size: 18px; color: var(--muted); font-weight: 600; text-transform: uppercase; }
-
-    .list { display: grid; gap: 14px; }
-    .item { display: grid; gap: 6px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
-    .row { display: flex; justify-content: space-between; align-items: baseline; }
-    .role { font-weight: 600; }
-    .when { color: var(--muted); font-size: 13px; }
-    .where { color: var(--muted); font-size: 14px; }
-    .desc { font-size: 15px; opacity: 0.9; }
-
-    .pub { display: grid; gap: 8px; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
-    .pub .title { font-weight: 600; font-size: 16px; }
-    .pub .meta { color: var(--muted); font-size: 13px; }
-    .pub .links { gap: 8px; margin-top: 4px; }
-
-    footer { color: var(--muted); font-size: 13px; margin-top: 36px; text-align: center; }
-
-    @media (max-width: 720px) {
-      header { flex-direction: column; align-items: flex-start; }
-      .avatar { width: 100%; height: auto; border-radius: 10px; }
+  @media (max-width: 760px) {
+    .nav {
+      min-height: auto;
+      padding: 14px 0;
+      align-items: start;
+      flex-direction: column;
     }
+
+    .section-head,
+    .timeline-top,
+    .pub-top {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .hero,
+    .timeline-item,
+    .pub-header,
+    .pub-content,
+    .publication-card.layout-image-first .pub-body,
+    .publication-card.layout-text-first .pub-body,
+    .publication-note {
+      padding: 18px;
+    }
+
+    .pub-visual {
+      height: 200px;
+    }
+
+    .pub-visual-inner {
+      padding: 8px;
+    }
+
+    .pub-visual-expand {
+      top: 8px;
+      right: 8px;
+    }
+
+    .image-modal {
+      padding: 14px;
+    }
+
+    .image-modal-body {
+      padding: 14px;
+    }
+  }
   </style>
 </head>
 <body>
-  <div class="nav">
-    <div class="nav-inner">
-      <a href="#experience">Experience</a>
-      <a href="#publications">Publications</a>
-      <a href="#talks">Talks</a>
-      <a href="#education">Education</a>
-    </div>
-    <button class="toggle-btn" id="themeToggle">Toggle Light/Dark</button>
+  <div class="nav-shell">
+    <nav class="nav wrap">
+      <div class="nav-links">
+        <a href="#experience">Experience</a>
+        <a href="#publications">Publications</a>
+        <a href="#talks">Talks</a>
+        <a href="#education">Education</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">Theme</button>
+    </nav>
   </div>
 
-  <div class="wrap">
-    <header>
+  <main id="top" class="wrap">
+    <section class="hero panel">
       <img class="avatar" src="./photos/prof.jpg" alt="Portrait of Christos Fragkathoulas" />
-      <div class="title">
+      <div class="hero-copy">
+        <p class="eyebrow">PhD Candidate · XAI · Fairness · Counterfactuals</p>
         <h1>Christos Fragkathoulas</h1>
-        <div class="subtitle">PhD Candidate · University of Ioannina · Archimedes Unit / Athena Research Center</div>
-        <div class="links">
+        <p class="lead">
+          PhD Candidate at the University of Ioannina and Archimedes / Athena Research Center,
+          working on explainable AI, fairness auditing, counterfactual explanations.
+        </p>
+        <div class="hero-meta">
           <span class="chip">Athens, Greece</span>
-          <a class="chip" href="https://github.com/xristosfrag" target="_blank">GitHub</a>
-          <a class="chip" href="https://linkedin.com/in/christos-fragkathoulas" target="_blank">LinkedIn</a>
+          <span class="chip">University of Ioannina</span>
+          <span class="chip">Athena Research Center</span>
         </div>
-      </div>
-    </header>
-
-    <section id="experience" class="section-card">
-      <h2 class="section-h">Work Experience</h2>
-      <div class="list">
-        <div class="item">
-          <div class="row">
-            <div class="role">PhD Fellow — Archimedes Unit / Athena Research Center</div>
-            <div class="when">2023 — Present</div>
-          </div>
-          <div class="where">Athens, Greece</div>
-          <div class="desc">Research on fairness auditing, and explainability through counterfactual explanations across tabular and time‑series models.</div>
-        </div>
-        <div class="item">
-          <div class="row">
-            <div class="role">Research Visitor — LIPADE, Université Paris Cité</div>
-            <div class="when">Oct — Dec 2025</div>
-          </div>
-          <div class="where">Paris, France</div>
-          <div class="desc">Research visit at the Laboratory of Informatics Paris Descartes (LIPADE), hosted by Prof. Themis Palpanas.</div>
-        </div>
-        <div class="item">
-          <div class="row">
-            <div class="role">Researcher — University of Ioannina & Pfizer CDI</div>
-            <div class="when">Nov 2022 — Oct 2023</div>
-          </div>
-          <div class="where">Ioannina, Greece</div>
-          <div class="desc">Developed ML and NLP tools to assess health misinformation on social media, using graph analysis, feature extraction, and statistical evaluation. Built a UI that presents credibility metrics for each piece of information and its source.</div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/xristosfrag" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-secondary" href="https://linkedin.com/in/christos-fragkathoulas" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </section>
 
-    <section id="publications" class="section-card">
-      <h2 class="section-h">Publications</h2>
-      <div class="list">
-        <article class="pub">
-          <div class="title">GALACTIC: Global and Local Agnostic Counterfactuals for Time-series Clustering</div>
-          <div class="meta">2026 — C. Fragkathoulas, E. Psaroudaki, T. Palpanas, E. Pitoura</div>
-          <div class="links"><a href="https://arxiv.org/pdf/2603.05318" target="_blank">Manuscript</a></div>
+    <section id="experience" class="section">
+      <div class="section-head">
+        <h2>Experience</h2>
+      </div>
+      <div class="stack">
+        <article class="panel timeline-item">
+          <div class="timeline-top">
+            <div>
+              <h3>PhD Fellow — Archimedes Unit / Athena Research Center</h3>
+              <p class="muted">Athens, Greece</p>
+            </div>
+            <span class="pill">2023 — Present</span>
+          </div>
+          <p>Research on fairness auditing and explainability through counterfactual explanations across tabular and time-series models.</p>
         </article>
-        <article class="pub">
-          <div class="title">FACEGroup: Feasible and Actionable Counterfactual Explanations for Group Fairness Auditing</div>
-          <div class="meta">ECML PKDD 2025 — C. Fragkathoulas, V. Papanikou, E. Pitoura, E. Terzi</div>
-          <div class="links"><a href="https://arxiv.org/pdf/2410.22591" target="_blank">Manuscript</a></div>
+
+        <article class="panel timeline-item">
+          <div class="timeline-top">
+            <div>
+              <h3>Research Visitor — LIPADE, Université Paris Cité</h3>
+              <p class="muted">Paris, France</p>
+            </div>
+            <span class="pill">Oct — Dec 2025</span>
+          </div>
+          <p>Research visit at the Laboratory of Informatics Paris Descartes (LIPADE), hosted by Prof. Themis Palpanas.</p>
         </article>
-        <article class="pub">
-          <div class="title">UGCE: User‑Guided Incremental Counterfactual Exploration</div>
-          <div class="meta">FORGTAI@IJCNN 2025 — C. Fragkathoulas, E. Pitoura</div>
-          <div class="links"><a href="https://arxiv.org/pdf/2505.21330v1" target="_blank">Manuscript</a></div>
-        </article>
-        <article class="pub">
-          <div class="title">On the Interplay of Explainability and Fairness: An Overview</div>
-          <div class="meta">2025 (submitted to TKDE Journal) — C. Fragkathoulas, V. Papanikou, D.P. Karidi, E. Pitoura</div>
-        </article>
-        <article class="pub">
-          <div class="title">Local Explanations and Self‑Explanations for Assessing Faithfulness in Black‑box LLMs</div>
-          <div class="meta">ReAI@SETN 2024 — C. Fragkathoulas, O.S. Chlapanis</div>
-          <div class="links"><a href="https://dl.acm.org/doi/pdf/10.1145/3688671.3688775" target="_blank">Manuscript</a></div>
-        </article>
-        <article class="pub">
-          <div class="title">On Explaining Unfairness: An Overview</div>
-          <div class="meta">FAIR@ICDE 2024 — C. Fragkathoulas, V. Papanikou, D.P. Karidi, E. Pitoura</div>
-          <div class="links"><a href="https://ieeexplore.ieee.org/document/10555067" target="_blank">Manuscript</a></div>
+
+        <article class="panel timeline-item">
+          <div class="timeline-top">
+            <div>
+              <h3>Researcher — University of Ioannina &amp; Pfizer CDI</h3>
+              <p class="muted">Ioannina, Greece</p>
+            </div>
+            <span class="pill">Nov 2022 — Oct 2023</span>
+          </div>
+          <p>Developed ML and NLP tools to assess health misinformation on social media using graph analysis, feature extraction, statistical evaluation, and an interface for credibility metrics.</p>
         </article>
       </div>
     </section>
 
-    <section id="talks" class="section-card">
-      <h2 class="section-h">Talks</h2>
-      <div class="list">
-        <div class="item">
-          <div class="row">
-            <div class="role">Invited Talk — Charles University</div>
-            <div class="when">Nov 6, 2025</div>
-          </div>
-          <div class="where">Prague, Czech Republic</div>
-          <div class="desc">Visiting seminar talk invited by Prof. Martin Holeňa (Faculty of Mathematics and Physics).</div>
+    <section id="publications" class="section">
+      <div class="section-head publications-head">
+        <div>
+          <h2>Publications</h2>
         </div>
+      </div>
+
+      <div class="publication-grid" id="publicationGrid"></div>
+
+      <div class="panel publication-note">
+        <h3>Other ongoing work</h3>
+        <p><strong>On the Interplay of Explainability and Fairness: An Overview</strong><br>2025 (submitted to TKDE Journal) — C. Fragkathoulas, V. Papanikou, D.P. Karidi, E. Pitoura</p>
       </div>
     </section>
 
-    <section id="education" class="section-card">
-      <h2 class="section-h">Education</h2>
-      <div class="list">
-        <div class="item">
-          <div class="row">
-            <div class="role">PhD in Computer Science & Engineering</div>
-            <div class="when">2023 — Present</div>
-          </div>
-          <div class="where">University of Ioannina, Greece</div>
-          <div class="desc">Advisor: Prof. Evaggelia Pitoura. Research focus: XAI, fairness, and counterfactual explanations.<br> Teaching assistant for database courses and supervision of diploma theses.</div>
-        </div>
-        <div class="item">
-          <div class="row">
-            <div class="role">Integrated Master (BSc & MSc equivalent) in Computer Science & Engineering</div>
-            <div class="when">2017 — 2022</div>
-          </div>
-          <div class="where">University of Ioannina, Greece</div>
-          <div class="desc">Diploma Thesis: "Machine Learning Techniques on Relational Data" (Advisor: Prof. Evaggelia Pitoura).</div>
-        </div>
+    <section id="talks" class="section">
+      <div class="section-head">
+        <h2>Talks</h2>
       </div>
+      <article class="panel timeline-item">
+        <div class="timeline-top">
+          <div>
+            <h3>Invited Talk — Charles University</h3>
+            <p class="muted">Prague, Czech Republic</p>
+          </div>
+          <span class="pill">Nov 6, 2025</span>
+        </div>
+        <p>Visiting seminar talk invited by Prof. Martin Holeňa (Faculty of Mathematics and Physics).</p>
+      </article>
     </section>
 
-    <footer>
-      © <span id="y"></span> Christos Fragkathoulas
-    </footer>
+    <section id="education" class="section">
+      <div class="section-head">
+        <h2>Education</h2>
+      </div>
+      <div class="stack">
+        <article class="panel timeline-item">
+          <div class="timeline-top">
+            <div>
+              <h3>PhD in Computer Science &amp; Engineering</h3>
+              <p class="muted">University of Ioannina, Greece</p>
+            </div>
+            <span class="pill">2023 — Present</span>
+          </div>
+          <p>Advisor: Prof. Evaggelia Pitoura. Research focus: XAI, fairness, and counterfactual explanations. Teaching assistant for database courses and supervision of diploma theses.</p>
+        </article>
+
+        <article class="panel timeline-item">
+          <div class="timeline-top">
+            <div>
+              <h3>Integrated Master (BSc &amp; MSc equivalent) in Computer Science &amp; Engineering</h3>
+              <p class="muted">University of Ioannina, Greece</p>
+            </div>
+            <span class="pill">2017 — 2022</span>
+          </div>
+          <p>Diploma Thesis: “Machine Learning Techniques on Relational Data” (Advisor: Prof. Evaggelia Pitoura).</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <p>© <span id="year"></span> Christos Fragkathoulas</p>
+  </footer>
+
+  <div class="image-modal" id="imageModal" aria-hidden="true">
+    <div class="image-modal-content" role="dialog" aria-modal="true" aria-label="Expanded publication image">
+      <div class="image-modal-toolbar">
+        <button class="image-modal-close" id="imageModalClose" type="button" aria-label="Close expanded image">×</button>
+      </div>
+      <div class="image-modal-body">
+        <img id="imageModalImg" src="" alt="">
+      </div>
+    </div>
   </div>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    /*
+      Publication card layout switch:
+      - 'text-first'        => all text together first, image at the end
+      - 'header-image-body' => title/meta first, then image, then abstract/actions
+      - 'image-first'       => old behavior, image first then all text
+    */
+    const PUBLICATION_LAYOUT = 'text-first'; // 'header-image-body' | 'text-first'
+
+    /*
+      Abstract interaction switch:
+      - 'toggle' => click button to expand/collapse the same abstract block
+      - 'hover'  => no toggle button; full abstract appears on hover/focus
+    */
+    const ABSTRACT_INTERACTION = 'toggle'; // 'hover'
+
+    /*
+      Image display mode:
+      - 'fit'   => full image always visible inside the frame, no cropping
+      - 'cover' => fills the frame, may crop image
+    */
+    const IMAGE_DISPLAY_MODE = 'fit';
+
+    const publications = [
+      {
+        title: 'GALACTIC: Global and Local Agnostic Counterfactuals for Time-series Clustering',
+        venue: '2026',
+        authors: 'C. Fragkathoulas, E. Psaroudaki, T. Palpanas, E. Pitoura',
+        manuscript: 'https://arxiv.org/pdf/2603.05318',
+        image: 'https://arxiv.org/html/2603.05318v1/x1.png',
+        image: 'photos/GALACTIC.png',
+        imageAlt: 'Representative figure from GALACTIC showing a perturbation over time steps.',
+        abstract: 'Time-series clustering is a fundamental tool for pattern discovery,\
+         yet existing explainability methods, primarily based on feature attribution or metadata,\
+         fail to identify the transitions that move an instance across cluster boundaries.\
+         While Counterfactual Explanations (CEs) identify the minimal temporal perturbations required\
+         to alter the prediction of a model, they have been mostly confined to supervised settings.\
+         This paper introduces GALACTIC, the first unified framework to bridge local and global \
+         counterfactual explainability for unsupervised time-series clustering. At instance level\
+         (local), GALACTIC generates perturbations via a cluster-aware optimization objective that\
+         respects the target and underlying cluster assignments. At cluster level (global), to mitigate\
+         cognitive load and enhance interpretability, we formulate a representative CE selection problem.\
+         We propose a Minimum Description Length (MDL) objective to extract a non-redundant summary of global\
+         xplanations that characterize the transitions between clusters. We prove that our MDL objective is\
+         supermodular, which allows the corresponding MDL reduction to be framed as a monotone submodular\
+         set function. This enables an efficient greedy selection algorithm with provable $$(1 − 1/𝑒)$$ \
+         approximation guarantees. Extensive experimental evaluation on the UCR Archive demonstrates\
+         that GALACTIC produces significantly sparser local CEs and more concise global summaries than\
+         state-of-the-art baselines adapted for our problem, offering the first unified approach for interpreting\
+         clustered time-series through counterfactuals.',
+        tag: 'Local + global time-series clustering explanations'
+      },
+      {
+        title: 'FACEGroup: Feasible and Actionable Counterfactual Explanations for Group Fairness Auditing',
+        venue: 'ECML PKDD 2025',
+        authors: 'C. Fragkathoulas, V. Papanikou, E. Pitoura, E. Terzi',
+        manuscript: 'https://arxiv.org/pdf/2410.22591',
+        image: 'https://arxiv.org/html/2410.22591v3/x1.png',
+        imageAlt: 'Representative figure from FACEGroup showing AUC-based fairness metrics and saturation points.',
+        abstract: 'Counterfactual explanations assess unfairness by revealing how inputs must change to achieve a\
+         desired outcome. This paper introduces the first graph-based framework for generating group counterfactual\
+         explanations to audit group fairness, a key aspect of trustworthy machine learning. Our framework,\
+         FACEGroup (Feasible and Actionable Counterfactual Explanations for Group Fairness), models real-world\
+         feasibility constraints, identifies subgroups with similar counterfactuals, and captures key trade-offs\
+         in counterfactual generation, distinguishing it from existing methods. To evaluate fairness, we introduce\
+         novel metrics for both group and subgroup level analysis that explicitly account for these trade-offs.\
+         Experiments on benchmark datasets show that FACEGroup effectively generates feasible group counterfactuals\
+         while accounting for trade-offs, and that our metrics capture and quantify fairness disparities.',
+        tag: 'Group fairness auditing'
+      },
+      {
+        title: 'UGCE: User-Guided Incremental Counterfactual Exploration',
+        venue: 'FORGTAI@IJCNN 2025',
+        authors: 'C. Fragkathoulas, E. Pitoura',
+        manuscript: 'https://arxiv.org/pdf/2505.21330v1',
+        image: 'https://arxiv.org/html/2505.21330v1/x1.png',
+        imageAlt: 'Representative figure from UGCE showing the user-in-the-loop incremental counterfactual pipeline.',
+        abstract: 'Counterfactual explanations (CFEs) are a popular approach for interpreting machine learning predictions\
+         by identifying minimal feature changes that alter model outputs. However, in real-world settings, users often\
+         refine feasibility constraints over time, requiring counterfactual generation to adapt dynamically.\
+         Existing methods fail to support such iterative updates, instead recomputing explanations from scratch with\
+         each change, an inefficient and rigid approach. We propose User-Guided Incremental Counterfactual Exploration \
+         (UGCE), a genetic algorithmbased framework that incrementally updates counterfactuals in response to evolving\
+         user constraints. Experimental results across five benchmark datasets demonstrate that UGCE significantly\
+         improves computational efficiency while maintaining high-quality solutions compared to a static, \
+         non-incremental approach. Our evaluation further shows that UGCE supports stable performance under varying \
+         constraint sequences, benefits from an efficient warm-start strategy, and reveals how different constraint\
+         types may affect search behavior.',
+        tag: 'Interactive counterfactual search'
+      },
+      {
+        title: 'Local Explanations and Self-Explanations for Assessing Faithfulness in Black-box LLMs',
+        venue: 'ReAI@SETN 2024',
+        authors: 'C. Fragkathoulas, O.S. Chlapanis',
+        manuscript: 'https://arxiv.org/pdf/2409.13764',
+        image: 'photos/llm_faithfulness.png',
+        imageAlt: 'Representative figure from the LLM faithfulness paper showing the perturbation-based explanation setup and self-explanations.',
+        abstract: 'This paper introduces a novel task to assess the faithfulness of large language models (LLMs) using local perturbations and\
+         self-explanations. Many LLMs often require additional context to answer certain questions correctly. For this purpose, we propose a\
+         new efficient alternative explainability technique, inspired by the commonly used leave-one-out approach. Using this approach, we\
+         identify the sufficient and necessary parts for the LLM to generate correct answers, serving as explanations. We propose a metric\
+         for assessing faithfulness that compares these crucial parts with the self-explanations of the model. Using the Natural Questions\
+         dataset, we validate our approach, demonstrating its effectiveness in explaining model decisions and assessing faithfulness.',
+        tag: 'LLM faithfulness assessment'
+      },
+      {
+        title: 'On Explaining Unfairness: An Overview',
+        venue: 'FAIR@ICDE 2024',
+        authors: 'C. Fragkathoulas, V. Papanikou, D.P. Karidi, E. Pitoura',
+        manuscript: 'https://arxiv.org/pdf/2402.10762',
+        image: 'photos/survey.png',
+        imageAlt: 'Representative figure from the fairness + explainability survey paper.',
+        abstract: 'Algorithmic fairness and explainability are foundational elements for achieving responsible AI. In this paper,\
+        we focus on their interplay, a research area that is recently receiving increasing attention. To this end, we first present two\
+        comprehensive taxonomies, each representing one of the two complementary fields of study: fairness and explanations. Then,\
+        we categorize explanations for fairness into three types: (a) Explanations to enhance fairness metrics, (b) Explanations to help\
+        us understand the causes of (un)fairness, and (c) Explanations to assist us in designing methods for mitigating unfairness. Finally,\
+        based on our fairness and explanation taxonomies, we present undiscovered literature paths revealing gaps that can serve as\
+        valuable insights for future research.',
+        tag: 'Survey on fairness + explainability'
+      }
+    ];
+
+    const grid = document.getElementById('publicationGrid');
+
+    function getLayoutClass(layout) {
+      if (layout === 'text-first') return 'layout-text-first';
+      if (layout === 'header-image-body') return 'layout-header-image-body';
+      return 'layout-image-first';
+    }
+
+    function getAbstractModeClass(mode) {
+      return mode === 'hover' ? 'abstract-hover' : 'abstract-toggle-mode';
+    }
+
+    function getImageModeClass(mode) {
+      return mode === 'cover' ? 'image-cover' : 'image-fit';
+    }
+
+    function renderVisual(paper, index) {
+      const imageModeClass = getImageModeClass(IMAGE_DISPLAY_MODE);
+
+      return `
+        <div class="pub-visual ${paper.image ? imageModeClass : 'pub-visual-fallback'}">
+          ${paper.image
+            ? `
+              <button
+                class="pub-visual-expand"
+                type="button"
+                aria-label="Expand image for ${paper.title}"
+                data-image-src="${paper.image}"
+                data-image-alt="${paper.imageAlt || paper.title}"
+              >
+                Expand
+              </button>
+              <div class="pub-visual-inner">
+                <img
+                  src="${paper.image}"
+                  alt="${paper.imageAlt}"
+                  loading="lazy"
+                  data-expandable="true"
+                  data-image-src="${paper.image}"
+                  data-image-alt="${paper.imageAlt || paper.title}"
+                  onerror="this.closest('.pub-visual').classList.add('pub-visual-fallback'); this.closest('.pub-visual').innerHTML = '<div class=&quot;fallback-art&quot;><span>Image unavailable</span></div>';"
+                >
+              </div>
+            `
+            : `<div class="fallback-art"><span>Survey / overview</span></div>`}
+        </div>
+      `;
+    }
+
+    function renderHeader(paper) {
+      return `
+        <div class="pub-header">
+          <div class="pub-top">
+            <span class="pub-tag">${paper.tag}</span>
+            <span class="pub-venue">${paper.venue}</span>
+          </div>
+          <h3>${paper.title}</h3>
+          <p class="pub-authors">${paper.authors}</p>
+        </div>
+      `;
+    }
+
+    function renderContent(paper, index) {
+      const toggleButton = ABSTRACT_INTERACTION === 'toggle'
+        ? `<button class="btn btn-secondary abstract-toggle" type="button" aria-expanded="false" aria-controls="pub-abstract-${index}">Show abstract</button>`
+        : '';
+
+      return `
+        <div class="pub-content">
+          <p class="pub-abstract" id="pub-abstract-${index}">${paper.abstract}</p>
+          <div class="pub-actions">
+            ${toggleButton}
+            <a class="btn btn-primary" href="${paper.manuscript}" target="_blank" rel="noopener">Manuscript</a>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCard(paper, index) {
+      const layoutClass = getLayoutClass(PUBLICATION_LAYOUT);
+      const abstractModeClass = getAbstractModeClass(ABSTRACT_INTERACTION);
+
+      if (PUBLICATION_LAYOUT === 'header-image-body') {
+        return `
+          <article class="publication-card panel ${layoutClass} ${abstractModeClass}" tabindex="0">
+            ${renderHeader(paper)}
+            ${renderVisual(paper, index)}
+            ${renderContent(paper, index)}
+          </article>
+        `;
+      }
+
+      if (PUBLICATION_LAYOUT === 'text-first') {
+        return `
+          <article class="publication-card panel ${layoutClass} ${abstractModeClass}" tabindex="0">
+            <div class="pub-body">
+              ${renderHeader(paper)}
+              ${renderContent(paper, index)}
+            </div>
+            ${renderVisual(paper, index)}
+          </article>
+        `;
+      }
+
+      return `
+        <article class="publication-card panel ${layoutClass} ${abstractModeClass}" tabindex="0">
+          ${renderVisual(paper, index)}
+          <div class="pub-body">
+            ${renderHeader(paper)}
+            ${renderContent(paper, index)}
+          </div>
+        </article>
+      `;
+    }
+
+    grid.innerHTML = publications.map((paper, index) => renderCard(paper, index)).join('');
+
+    if (ABSTRACT_INTERACTION === 'toggle') {
+      document.querySelectorAll('.abstract-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.publication-card');
+          const isExpanded = card.classList.contains('abstract-expanded');
+          card.classList.toggle('abstract-expanded', !isExpanded);
+          button.setAttribute('aria-expanded', String(!isExpanded));
+          button.textContent = isExpanded ? 'Show abstract' : 'Hide abstract';
+        });
+      });
+    }
+
+    const imageModal = document.getElementById('imageModal');
+    const imageModalImg = document.getElementById('imageModalImg');
+    const imageModalClose = document.getElementById('imageModalClose');
+
+    function openImageModal(src, alt) {
+      imageModalImg.src = src;
+      imageModalImg.alt = alt || 'Expanded publication image';
+      imageModal.classList.add('open');
+      imageModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeImageModal() {
+      imageModal.classList.remove('open');
+      imageModal.setAttribute('aria-hidden', 'true');
+      imageModalImg.src = '';
+      imageModalImg.alt = '';
+      document.body.classList.remove('modal-open');
+    }
+
+    document.addEventListener('click', (event) => {
+      const expandBtn = event.target.closest('.pub-visual-expand');
+      const expandableImg = event.target.closest('img[data-expandable="true"]');
+
+      if (expandBtn) {
+        openImageModal(expandBtn.dataset.imageSrc, expandBtn.dataset.imageAlt);
+      }
+
+      if (expandableImg) {
+        openImageModal(expandableImg.dataset.imageSrc, expandableImg.dataset.imageAlt);
+      }
+
+      if (event.target === imageModal) {
+        closeImageModal();
+      }
+    });
+
+    imageModalClose.addEventListener('click', closeImageModal);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && imageModal.classList.contains('open')) {
+        closeImageModal();
+      }
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
     const toggleBtn = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const storedTheme = localStorage.getItem('theme-preference');
+
+    if (storedTheme === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+    }
+
     toggleBtn.addEventListener('click', () => {
-      if (document.body.getAttribute('data-theme') === 'dark') {
-        document.body.removeAttribute('data-theme');
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        root.removeAttribute('data-theme');
+        localStorage.setItem('theme-preference', 'light');
       } else {
-        document.body.setAttribute('data-theme', 'dark');
+        root.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme-preference', 'dark');
       }
     });
   </script>

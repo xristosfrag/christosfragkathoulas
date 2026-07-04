@@ -946,10 +946,12 @@
 
       <div class="publication-grid" id="publicationGrid"></div>
 
+      <!--
       <div class="panel publication-note">
         <h3>Other ongoing work</h3>
         <p><strong>On the Interplay of Explainability and Fairness: An Overview</strong><br>2025 (submitted to TKDE Journal) — C. Fragkathoulas, V. Papanikou, D.P. Karidi, E. Pitoura</p>
       </div>
+      -->
     </section>
 
     <section id="talks" class="section">
@@ -1037,6 +1039,18 @@
     const IMAGE_DISPLAY_MODE = 'fit';
 
     const publications = [
+      {
+        title: 'On the Interplay of Explainability and Fairness: An Overview',
+        venue: 'TKDE 2026',
+        authors: 'C. Fragkathoulas, V. Papanikou, D.P. Karidi, E. Pitoura',
+        manuscript: 'https://ieeexplore.ieee.org/document/11575077',
+        image: 'photos/tkde_fairness_explainability_survey.png',
+        imageAlt: 'Representative figure from the overview paper showing the interplay of explainability and fairness.',
+        abstract: 'Algorithmic fairness and explainability are foundational pillars of responsible AI. Although often studied independently, their interplay is increasingly recognized as crucial for diagnosing and mitigating bias in machine learning systems. We first introduce two systematic taxonomies: one for algorithmic fairness and one for explainable AI, to organize the landscape of existing work across diverse tasks (classification, ranking, and recommendation) and data modalities (tabular, graph). Next, we categorize the use of explanations in fairness efforts into three main functions: (a) detecting and understanding the causes of unfairness, (b) defining enhanced fairness metrics, and (c) designing mitigation strategies.\
+In addition, we examine how explanation methods themselves can be biased, underscoring the need to evaluate fairness for explanations.\
+Finally, we identify open research challenges and outline promising directions for future research at the intersection of fairness and explainability.',
+        tag: 'Survey on fairness + explainability'
+      },
       {
         title: 'GALACTICA: An Interactive System for Local and Global Counterfactual Explanations for Time-series Clustering',
         venue: 'VLDB 2026',

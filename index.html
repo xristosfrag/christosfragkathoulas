@@ -539,6 +539,32 @@
     padding: 20px 22px;
   }
 
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .service-card {
+    padding: 22px;
+  }
+
+  .service-card h3 {
+    margin: 0 0 12px;
+    letter-spacing: -0.03em;
+  }
+
+  .service-card p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .service-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .footer {
     padding: 0 0 38px;
     color: var(--muted);
@@ -870,6 +896,7 @@
         <a href="#publications">Publications</a>
         <a href="#talks">Talks</a>
         <a href="#education">Education</a>
+        <a href="#service">Service</a>
       </div>
       <button class="theme-toggle">Theme</button>
     </div>
@@ -995,6 +1022,22 @@
             <span class="pill">2017 — 2022</span>
           </div>
           <p>Diploma Thesis: “Machine Learning Techniques on Relational Data” (Advisor: Prof. Evaggelia Pitoura).</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="service" class="section">
+      <div class="section-head">
+        <h2>Academic Service</h2>
+      </div>
+      <div class="service-grid">
+        <article class="panel service-card">
+          <h3>Reviewer</h3>
+          <p>ACM TIST, ECML-PKDD, ICDM</p>
+        </article>
+        <article class="panel service-card">
+          <h3>Volunteer</h3>
+          <p>FAccT 2025, EDBT/ICDT 2023</p>
         </article>
       </div>
     </section>
